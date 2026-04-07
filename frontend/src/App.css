@@ -9,7 +9,8 @@
 }
 
 /* Background gradient blobs to make it dynamic */
-.app-container::before, .app-container::after {
+.app-container::before,
+.app-container::after {
   content: '';
   position: absolute;
   width: 600px;
@@ -33,7 +34,7 @@
 }
 
 /* Ensure foreground content is above backgrounds */
-#root > .app-container > * {
+#root>.app-container>* {
   z-index: 10;
   position: relative;
 }
