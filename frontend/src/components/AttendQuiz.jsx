@@ -27,8 +27,8 @@ const AttendQuiz = () => {
                 answerIndex: ans === null ? -1 : ans
             }));
 
-            await axios.post(`${API_URL}/quiz/${id}/submit`, { 
-                answers: formattedAnswers 
+            await axios.post(`${API_URL}/quiz/${id}/submit`, {
+                answers: formattedAnswers
             }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
@@ -98,7 +98,7 @@ const AttendQuiz = () => {
     if (loading) return (
         <div className="attend-quiz-container loading-container">
             <div className="spinner"></div>
-            <p>Readying the challenges... ⚡</p>
+            <p>Starting the quiz...</p>
         </div>
     );
 
@@ -142,124 +142,123 @@ const AttendQuiz = () => {
                     </div>
                 </div>
             </div>
-            
+
             <div className="attend-quiz-main">
                 <div className="attend-quiz-container">
-            <div className="quiz-header">
-                <div>
-                    <h1>{quiz.title}</h1>
-                    <p style={{ color: 'var(--text-muted)' }}>Attempting as Student</p>
-                </div>
-                <div className="timer-box">
-                    <span>⏱️</span>
-                    <span style={{ color: timeLeft < 60 ? 'var(--error)' : 'inherit' }}>
-                        {formatTime(timeLeft)}
-                    </span>
-                </div>
-            </div>
-
-            <div className="question-status">
-                Question <span style={{ color: 'var(--primary)', fontWeight: 'bold' }}>{currentQuestionIndex + 1}</span> of {quiz.questions.length}
-            </div>
-
-            <div className="quiz-question-card animate-fade-in" key={currentQuestionIndex}>
-                <h2 className="quiz-question-text">
-                    {currentQuestion.text}
-                    {currentQuestion.isRequired !== false && <span style={{ color: 'var(--error)', marginLeft: '0.3rem' }} title="Required">*</span>}
-                </h2>
-                {currentQuestion.image && (
-                    <div style={{ marginBottom: '1.5rem', textAlign: 'center' }}>
-                        <img src={currentQuestion.image} alt="Question" style={{ maxWidth: '100%', maxHeight: '300px', borderRadius: '12px', border: '1px solid var(--glass-border)' }} />
-                    </div>
-                )}
-                <div className="quiz-options-list">
-                    {(!currentQuestion.type || currentQuestion.type === 'mcq' || currentQuestion.type === 'true_false') && currentQuestion.options.map((opt, i) => {
-                        const optText = typeof opt === 'string' ? opt : opt.text;
-                        const optImage = typeof opt === 'string' ? '' : opt.image;
-                        return (
-                            <label 
-                                key={i} 
-                                className={`quiz-option ${answers[currentQuestionIndex] === i ? 'selected' : ''}`}
-                                style={{ alignItems: 'flex-start' }}
-                            >
-                                <input 
-                                    type="radio" 
-                                    name="option" 
-                                    checked={answers[currentQuestionIndex] === i} 
-                                    onChange={() => handleOptionSelect(i)} 
-                                    style={{ marginTop: optImage ? '0.4rem' : '0' }}
-                                />
-                                {(!currentQuestion.type || currentQuestion.type === 'mcq') && (
-                                    <span className="option-index" style={{ marginTop: optImage ? '0.2rem' : '0' }}>{String.fromCharCode(65 + i)}</span>
-                                )}
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-                                    {optText && <span style={{ marginTop: optImage ? '0.2rem' : '0' }}>{optText}</span>}
-                                    {optImage && <img src={optImage} alt={`Option ${String.fromCharCode(65 + i)}`} style={{ maxWidth: '200px', borderRadius: '8px', border: '1px solid var(--glass-border)' }} />}
-                                </div>
-                            </label>
-                        );
-                    })}
-
-                    {currentQuestion.type === 'fill_in' && (
-                        <div style={{ marginTop: '1rem', width: '100%' }}>
-                            <input 
-                                type="text"
-                                className="form-input"
-                                style={{ padding: '1rem', fontSize: '1rem', width: '100%', boxSizing: 'border-box' }}
-                                placeholder="Type your answer here..."
-                                value={answers[currentQuestionIndex] || ''}
-                                onChange={(e) => {
-                                    const newAnswers = [...answers];
-                                    newAnswers[currentQuestionIndex] = e.target.value;
-                                    setAnswers(newAnswers);
-                                }}
-                            />
+                    <div className="quiz-header">
+                        <div>
+                            <h1>{quiz.title}</h1>
+                            <p style={{ color: 'var(--text-muted)' }}>Attempting as Student</p>
                         </div>
-                    )}
+                        <div className="timer-box">
+                            <span style={{ color: timeLeft < 60 ? 'var(--error)' : 'inherit' }}>
+                                Time Left: {formatTime(timeLeft)}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div className="question-status">
+                        Question <span style={{ color: 'var(--primary)', fontWeight: 'bold' }}>{currentQuestionIndex + 1}</span> of {quiz.questions.length}
+                    </div>
+
+                    <div className="quiz-question-card animate-fade-in" key={currentQuestionIndex}>
+                        <h2 className="quiz-question-text">
+                            {currentQuestion.text}
+                            {currentQuestion.isRequired !== false && <span style={{ color: 'var(--error)', marginLeft: '0.3rem' }} title="Required">*</span>}
+                        </h2>
+                        {currentQuestion.image && (
+                            <div style={{ marginBottom: '1.5rem', textAlign: 'center' }}>
+                                <img src={currentQuestion.image} alt="Question" style={{ maxWidth: '100%', maxHeight: '300px', borderRadius: '12px', border: '1px solid var(--glass-border)' }} />
+                            </div>
+                        )}
+                        <div className="quiz-options-list">
+                            {(!currentQuestion.type || currentQuestion.type === 'mcq' || currentQuestion.type === 'true_false') && currentQuestion.options.map((opt, i) => {
+                                const optText = typeof opt === 'string' ? opt : opt.text;
+                                const optImage = typeof opt === 'string' ? '' : opt.image;
+                                return (
+                                    <label
+                                        key={i}
+                                        className={`quiz-option ${answers[currentQuestionIndex] === i ? 'selected' : ''}`}
+                                        style={{ alignItems: 'flex-start' }}
+                                    >
+                                        <input
+                                            type="radio"
+                                            name="option"
+                                            checked={answers[currentQuestionIndex] === i}
+                                            onChange={() => handleOptionSelect(i)}
+                                            style={{ marginTop: optImage ? '0.4rem' : '0' }}
+                                        />
+                                        {(!currentQuestion.type || currentQuestion.type === 'mcq') && (
+                                            <span className="option-index" style={{ marginTop: optImage ? '0.2rem' : '0' }}>{String.fromCharCode(65 + i)}</span>
+                                        )}
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                                            {optText && <span style={{ marginTop: optImage ? '0.2rem' : '0' }}>{optText}</span>}
+                                            {optImage && <img src={optImage} alt={`Option ${String.fromCharCode(65 + i)}`} style={{ maxWidth: '200px', borderRadius: '8px', border: '1px solid var(--glass-border)' }} />}
+                                        </div>
+                                    </label>
+                                );
+                            })}
+
+                            {currentQuestion.type === 'fill_in' && (
+                                <div style={{ marginTop: '1rem', width: '100%' }}>
+                                    <input
+                                        type="text"
+                                        className="form-input"
+                                        style={{ padding: '1rem', fontSize: '1rem', width: '100%', boxSizing: 'border-box' }}
+                                        placeholder="Type your answer here..."
+                                        value={answers[currentQuestionIndex] || ''}
+                                        onChange={(e) => {
+                                            const newAnswers = [...answers];
+                                            newAnswers[currentQuestionIndex] = e.target.value;
+                                            setAnswers(newAnswers);
+                                        }}
+                                    />
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className="quiz-footer">
+                        <button
+                            className="nav-btn"
+                            disabled={currentQuestionIndex === 0}
+                            onClick={() => setCurrentQuestionIndex(prev => prev - 1)}
+                        >
+                            Previous
+                        </button>
+
+                        {currentQuestionIndex < quiz.questions.length - 1 ? (
+                            <button
+                                className="nav-btn"
+                                onClick={() => setCurrentQuestionIndex(prev => prev + 1)}
+                                disabled={currentQuestion.isRequired !== false && (answers[currentQuestionIndex] === null || String(answers[currentQuestionIndex]).trim() === '')}
+                                style={{
+                                    background: (currentQuestion.isRequired !== false && (answers[currentQuestionIndex] === null || String(answers[currentQuestionIndex]).trim() === '')) ? 'rgba(255,255,255,0.1)' : 'var(--primary)',
+                                    color: 'white',
+                                    border: 'none',
+                                    cursor: (currentQuestion.isRequired !== false && (answers[currentQuestionIndex] === null || String(answers[currentQuestionIndex]).trim() === '')) ? 'not-allowed' : 'pointer',
+                                    opacity: (currentQuestion.isRequired !== false && (answers[currentQuestionIndex] === null || String(answers[currentQuestionIndex]).trim() === '')) ? 0.5 : 1
+                                }}
+                            >
+                                Next Question
+                            </button>
+                        ) : (
+                            <button
+                                className="submit-quiz-btn"
+                                onClick={handleSubmit}
+                                disabled={submitting || (currentQuestion.isRequired !== false && (answers[currentQuestionIndex] === null || String(answers[currentQuestionIndex]).trim() === ''))}
+                                style={{
+                                    opacity: (currentQuestion.isRequired !== false && (answers[currentQuestionIndex] === null || String(answers[currentQuestionIndex]).trim() === '')) ? 0.5 : 1,
+                                    cursor: (currentQuestion.isRequired !== false && (answers[currentQuestionIndex] === null || String(answers[currentQuestionIndex]).trim() === '')) ? 'not-allowed' : 'pointer'
+                                }}
+                            >
+                                {submitting ? 'Submitting...' : 'Submit Quiz'}
+                            </button>
+                        )}
+                    </div>
                 </div>
             </div>
-
-            <div className="quiz-footer">
-                <button 
-                    className="nav-btn" 
-                    disabled={currentQuestionIndex === 0} 
-                    onClick={() => setCurrentQuestionIndex(prev => prev - 1)}
-                >
-                    Previous
-                </button>
-                
-                {currentQuestionIndex < quiz.questions.length - 1 ? (
-                    <button 
-                        className="nav-btn" 
-                        onClick={() => setCurrentQuestionIndex(prev => prev + 1)}
-                        disabled={currentQuestion.isRequired !== false && (answers[currentQuestionIndex] === null || String(answers[currentQuestionIndex]).trim() === '')}
-                        style={{ 
-                            background: (currentQuestion.isRequired !== false && (answers[currentQuestionIndex] === null || String(answers[currentQuestionIndex]).trim() === '')) ? 'rgba(255,255,255,0.1)' : 'var(--primary)', 
-                            color: 'white', 
-                            border: 'none',
-                            cursor: (currentQuestion.isRequired !== false && (answers[currentQuestionIndex] === null || String(answers[currentQuestionIndex]).trim() === '')) ? 'not-allowed' : 'pointer',
-                            opacity: (currentQuestion.isRequired !== false && (answers[currentQuestionIndex] === null || String(answers[currentQuestionIndex]).trim() === '')) ? 0.5 : 1
-                        }}
-                    >
-                        Next Question
-                    </button>
-                ) : (
-                    <button 
-                        className="submit-quiz-btn" 
-                        onClick={handleSubmit}
-                        disabled={submitting || (currentQuestion.isRequired !== false && (answers[currentQuestionIndex] === null || String(answers[currentQuestionIndex]).trim() === ''))}
-                        style={{
-                            opacity: (currentQuestion.isRequired !== false && (answers[currentQuestionIndex] === null || String(answers[currentQuestionIndex]).trim() === '')) ? 0.5 : 1,
-                            cursor: (currentQuestion.isRequired !== false && (answers[currentQuestionIndex] === null || String(answers[currentQuestionIndex]).trim() === '')) ? 'not-allowed' : 'pointer'
-                        }}
-                    >
-                        {submitting ? 'Submitting...' : '🎉 Finish Quiz'}
-                    </button>
-                )}
-            </div>
-          </div>
         </div>
-    </div>
     );
 };
 

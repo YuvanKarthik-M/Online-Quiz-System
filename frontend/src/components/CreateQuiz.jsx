@@ -75,7 +75,7 @@ const CreateQuiz = () => {
 
         fetchClassrooms();
         fetchQuizForEdit();
-        
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id, isEditMode]);
 
@@ -131,7 +131,7 @@ const CreateQuiz = () => {
         const newQuestions = [...questions];
         const currentOpt = newQuestions[qIndex].options[oIndex];
         if (typeof currentOpt !== 'string') {
-             newQuestions[qIndex].options[oIndex] = { ...currentOpt, image: '' };
+            newQuestions[qIndex].options[oIndex] = { ...currentOpt, image: '' };
         }
         setQuestions(newQuestions);
     };
@@ -195,36 +195,42 @@ const CreateQuiz = () => {
     if (fetchingData) return (
         <div className="create-quiz-container" style={{ textAlign: 'center', padding: '4rem' }}>
             <div className="spinner" style={{ margin: '0 auto' }}></div>
-            <p style={{ marginTop: '1rem', color: 'var(--text-muted)' }}>Loading quiz data... ✨</p>
+            <p style={{ marginTop: '1rem', color: 'var(--text-muted)' }}>Loading quiz data...</p>
         </div>
     );
 
     return (
         <div className="create-quiz-container">
-            <h1 className="section-title">
-                {isEditMode ? `✏️ Edit Quiz: ${title}` : '✨ Create New Quiz'}
+            <div style={{ marginBottom: '1.5rem' }}>
+                <button type="button" onClick={() => navigate(-1)} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid var(--glass-border)', color: 'var(--text-main)', padding: '0.5rem 1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', borderRadius: '10px', cursor: 'pointer', width: 'fit-content' }}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    Back
+                </button>
+            </div>
+            <h1 className="section-title" style={{ marginTop: '0.5rem' }}>
+                {isEditMode ? `Edit Quiz: ${title}` : 'Create New Quiz'}
             </h1>
             {error && <div style={{ color: 'var(--error)', marginBottom: '1rem', textAlign: 'center' }}>{error}</div>}
-            
+
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label className="form-label">Quiz Title</label>
-                    <input 
-                        type="text" 
-                        className="form-input" 
-                        value={title} 
-                        onChange={(e) => setTitle(e.target.value)} 
+                    <input
+                        type="text"
+                        className="form-input"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
                         placeholder="Enter quiz title"
-                        required 
+                        required
                     />
                 </div>
 
                 <div className="form-group">
                     <label className="form-label">Description</label>
-                    <textarea 
-                        className="form-textarea" 
-                        value={description} 
-                        onChange={(e) => setDescription(e.target.value)} 
+                    <textarea
+                        className="form-textarea"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
                         placeholder="What is this quiz about?"
                         rows="3"
                     />
@@ -233,26 +239,26 @@ const CreateQuiz = () => {
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
                     <div className="form-group">
                         <label className="form-label">Timer (Minutes)</label>
-                        <input 
-                            type="number" 
-                            className="form-input" 
-                            value={timer} 
-                            onChange={(e) => setTimer(Number(e.target.value))} 
+                        <input
+                            type="number"
+                            className="form-input"
+                            value={timer}
+                            onChange={(e) => setTimer(Number(e.target.value))}
                             min="1"
-                            required 
+                            required
                         />
                     </div>
 
                     <div className="form-group">
                         <label className="form-label">Privacy</label>
-                        <select 
-                            className="form-select" 
-                            value={isPublic} 
+                        <select
+                            className="form-select"
+                            value={isPublic}
                             onChange={(e) => setIsPublic(e.target.value === 'true')}
                             style={{ padding: '0.9rem' }}
                         >
-                            <option value="true">🌍 Public (Anyone can take) </option>
-                            <option value="false">🔒 Restricted (Only my students)</option>
+                            <option value="true">Public</option>
+                            <option value="false">Restricted (Select Classroom)</option>
                         </select>
                     </div>
                 </div>
@@ -260,21 +266,21 @@ const CreateQuiz = () => {
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
                     <div className="form-group">
                         <label className="form-label">Deadline (Optional)</label>
-                        <input 
-                            type="datetime-local" 
-                            className="form-input" 
-                            value={deadline} 
-                            onChange={(e) => setDeadline(e.target.value)} 
+                        <input
+                            type="datetime-local"
+                            className="form-input"
+                            value={deadline}
+                            onChange={(e) => setDeadline(e.target.value)}
                         />
                     </div>
 
                     <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '1.5rem' }}>
-                        <input 
-                            type="checkbox" 
+                        <input
+                            type="checkbox"
                             id="showResult"
                             disabled={!deadline}
-                            checked={!deadline ? true : showResultBeforeDeadline} 
-                            onChange={(e) => setShowResultBeforeDeadline(e.target.checked)} 
+                            checked={!deadline ? true : showResultBeforeDeadline}
+                            onChange={(e) => setShowResultBeforeDeadline(e.target.checked)}
                         />
                         <label htmlFor="showResult" style={{ fontSize: '0.9rem', cursor: !deadline ? 'not-allowed' : 'pointer', opacity: !deadline ? 0.6 : 1 }}>
                             {!deadline ? "Results are always visible without a deadline" : "Show results before deadline"}
@@ -285,9 +291,9 @@ const CreateQuiz = () => {
                 {!isPublic && (
                     <div className="form-group animate-fade-in">
                         <label className="form-label">Select Classroom</label>
-                        <select 
-                            className="form-select" 
-                            value={classroomId} 
+                        <select
+                            className="form-select"
+                            value={classroomId}
                             onChange={(e) => setClassroomId(e.target.value)}
                             required
                         >
@@ -305,10 +311,10 @@ const CreateQuiz = () => {
                 )}
 
                 <hr style={{ border: 'none', borderTop: '1px solid var(--glass-border)', margin: '2rem 0' }} />
-                
+
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
                     <h2 style={{ fontSize: '1.4rem', display: 'flex', alignItems: 'center', gap: '0.5rem', margin: 0 }}>
-                        📜 Questions ({questions.length})
+                        Total Questions: {questions.length}
                     </h2>
                     <div style={{ display: 'flex', gap: '0.8rem' }}>
                         <button type="button" className="nav-btn" style={{ fontSize: '0.8rem', padding: '0.5rem 1rem', background: 'rgba(34, 197, 94, 0.2)', color: '#4ade80', border: '1px solid rgba(34, 197, 94, 0.3)' }} onClick={() => toggleAllRequired(true)}>
@@ -323,12 +329,12 @@ const CreateQuiz = () => {
                 {questions.map((q, qIndex) => (
                     <div key={qIndex} className="question-card">
                         <button type="button" className="remove-question-btn" onClick={() => removeQuestion(qIndex)}>✕</button>
-                        
-                        <div className="form-group" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.8rem', gap: '1rem' }}>
+
+                        <div className="form-group" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.8rem', gap: '1rem', paddingRight: '2.5rem' }}>
                             <label className="form-label" style={{ margin: 0, flex: 1 }}>Question {qIndex + 1}</label>
-                            
-                            <select 
-                                className="form-select" 
+
+                            <select
+                                className="form-select"
                                 style={{ width: 'auto', padding: '0.4rem 1rem', borderRadius: '8px', flex: 1 }}
                                 value={q.type || 'mcq'}
                                 onChange={(e) => {
@@ -352,8 +358,8 @@ const CreateQuiz = () => {
                             </select>
 
                             <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontSize: '0.85rem', color: q.isRequired !== false ? 'var(--secondary)' : 'var(--text-muted)', background: 'rgba(255, 255, 255, 0.05)', padding: '0.4rem 0.8rem', borderRadius: '12px', border: '1px solid var(--glass-border)' }}>
-                                <input 
-                                    type="checkbox" 
+                                <input
+                                    type="checkbox"
                                     checked={q.isRequired !== false} // Defaults to true
                                     onChange={(e) => handleQuestionChange(qIndex, 'isRequired', e.target.checked)}
                                 />
@@ -361,10 +367,10 @@ const CreateQuiz = () => {
                             </label>
                         </div>
                         <div className="form-group">
-                            <input 
-                                type="text" 
-                                className="form-input" 
-                                value={q.text} 
+                            <input
+                                type="text"
+                                className="form-input"
+                                value={q.text}
                                 onChange={(e) => handleQuestionChange(qIndex, 'text', e.target.value)}
                                 placeholder="Enter question text"
                                 required
@@ -390,34 +396,34 @@ const CreateQuiz = () => {
                                     const optText = typeof opt === 'string' ? opt : opt.text;
                                     const optImage = typeof opt === 'string' ? '' : opt.image;
                                     return (
-                                    <div key={oIndex} className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', padding: '1rem', background: 'rgba(255,255,255,0.02)', borderRadius: '12px', border: '1px solid var(--glass-border)' }}>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                            <input 
-                                                type="radio" 
-                                                name={`correct-${qIndex}`} 
-                                                checked={q.correctAnswer === oIndex || String(q.correctAnswer) === String(oIndex)}
-                                                onChange={() => handleQuestionChange(qIndex, 'correctAnswer', oIndex)}
-                                            />
-                                            <input 
-                                                type="text" 
-                                                className="form-input" 
-                                                style={{ padding: '0.6rem 1rem', fontSize: '0.9rem' }}
-                                                value={optText || ''} 
-                                                onChange={(e) => handleOptionTextChange(qIndex, oIndex, e.target.value)}
-                                                placeholder={`Option ${oIndex + 1} text`}
-                                            />
-                                            <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', padding: '0.5rem', borderRadius: '8px', background: 'rgba(255,255,255,0.05)', color: 'var(--text-main)', border: '1px solid var(--glass-border)', transition: 'background 0.2s', width: '40px', height: '40px' }} title="Add Image to Option">
-                                                <input type="file" accept="image/*" style={{ display: 'none' }} onChange={(e) => handleOptionImageUpload(qIndex, oIndex, e)} />
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-                                            </label>
-                                        </div>
-                                        {optImage && (
-                                            <div style={{ position: 'relative', marginTop: '0.5rem', width: 'fit-content' }}>
-                                                <img src={optImage} alt={`Option ${oIndex + 1}`} style={{ maxHeight: '100px', borderRadius: '6px', border: '1px solid var(--glass-border)' }} />
-                                                <button type="button" onClick={() => removeOptionImage(qIndex, oIndex)} style={{ position: 'absolute', top: '-8px', right: '-8px', background: 'var(--error)', color: 'white', border: 'none', borderRadius: '50%', width: '20px', height: '20px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px' }}>✕</button>
+                                        <div key={oIndex} className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', padding: '1rem', background: 'rgba(255,255,255,0.02)', borderRadius: '12px', border: '1px solid var(--glass-border)' }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                                <input
+                                                    type="radio"
+                                                    name={`correct-${qIndex}`}
+                                                    checked={q.correctAnswer === oIndex || String(q.correctAnswer) === String(oIndex)}
+                                                    onChange={() => handleQuestionChange(qIndex, 'correctAnswer', oIndex)}
+                                                />
+                                                <input
+                                                    type="text"
+                                                    className="form-input"
+                                                    style={{ padding: '0.6rem 1rem', fontSize: '0.9rem' }}
+                                                    value={optText || ''}
+                                                    onChange={(e) => handleOptionTextChange(qIndex, oIndex, e.target.value)}
+                                                    placeholder={`Option ${oIndex + 1} text`}
+                                                />
+                                                <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', padding: '0.5rem', borderRadius: '8px', background: 'rgba(255,255,255,0.05)', color: 'var(--text-main)', border: '1px solid var(--glass-border)', transition: 'background 0.2s', width: '40px', height: '40px' }} title="Add Image to Option">
+                                                    <input type="file" accept="image/*" style={{ display: 'none' }} onChange={(e) => handleOptionImageUpload(qIndex, oIndex, e)} />
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                                                </label>
                                             </div>
-                                        )}
-                                    </div>
+                                            {optImage && (
+                                                <div style={{ position: 'relative', marginTop: '0.5rem', width: 'fit-content' }}>
+                                                    <img src={optImage} alt={`Option ${oIndex + 1}`} style={{ maxHeight: '100px', borderRadius: '6px', border: '1px solid var(--glass-border)' }} />
+                                                    <button type="button" onClick={() => removeOptionImage(qIndex, oIndex)} style={{ position: 'absolute', top: '-8px', right: '-8px', background: 'var(--error)', color: 'white', border: 'none', borderRadius: '50%', width: '20px', height: '20px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px' }}>✕</button>
+                                                </div>
+                                            )}
+                                        </div>
                                     );
                                 })}
                             </div>
@@ -427,9 +433,9 @@ const CreateQuiz = () => {
                             <div style={{ display: 'flex', gap: '2rem', marginTop: '1rem', paddingLeft: '0.5rem' }}>
                                 {['True', 'False'].map((opt, oIndex) => (
                                     <label key={oIndex} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontSize: '1rem' }}>
-                                        <input 
-                                            type="radio" 
-                                            name={`correct-${qIndex}`} 
+                                        <input
+                                            type="radio"
+                                            name={`correct-${qIndex}`}
                                             checked={q.correctAnswer === oIndex || String(q.correctAnswer) === String(oIndex)}
                                             onChange={() => handleQuestionChange(qIndex, 'correctAnswer', oIndex)}
                                         />
@@ -442,10 +448,10 @@ const CreateQuiz = () => {
                         {q.type === 'fill_in' && (
                             <div className="form-group" style={{ marginTop: '1rem' }}>
                                 <label className="form-label" style={{ fontSize: '0.9rem' }}>Correct Answer</label>
-                                <input 
-                                    type="text" 
-                                    className="form-input" 
-                                    value={q.correctAnswer || ''} 
+                                <input
+                                    type="text"
+                                    className="form-input"
+                                    value={q.correctAnswer || ''}
                                     onChange={(e) => handleQuestionChange(qIndex, 'correctAnswer', e.target.value)}
                                     placeholder="Enter the correct answer (case-insensitive during check)"
                                     required
@@ -460,7 +466,7 @@ const CreateQuiz = () => {
                 </button>
 
                 <button type="submit" className="submit-btn" disabled={loading}>
-                    {loading ? (isEditMode ? 'Updating...' : 'Creating...') : (isEditMode ? 'Update Quiz 💾' : '🚀 Create Quiz')}
+                    {loading ? (isEditMode ? 'Updating...' : 'Creating...') : (isEditMode ? 'Update Quiz' : 'Create Quiz')}
                 </button>
             </form>
         </div>

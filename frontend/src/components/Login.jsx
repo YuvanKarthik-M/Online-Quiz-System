@@ -7,7 +7,7 @@ import './Login.css';
 const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  
+
   const [isLogin, setIsLogin] = useState(location.pathname !== '/signup');
   const [formData, setFormData] = useState({ name: '', email: '', password: '', role: 'student' });
   const [error, setError] = useState('');
@@ -32,11 +32,12 @@ const Login = () => {
   const handleGoogleSuccess = async (credentialResponse) => {
     setGoogleLoading(true);
     setError('');
-    
+
     try {
       const { credential } = credentialResponse;
       const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/google`, {
-        credential
+        credential,
+        role: !isLogin ? formData.role : undefined
       });
 
       if (res.data.token) {
@@ -81,20 +82,9 @@ const Login = () => {
       {/* Left Column (Branding) */}
       <div className="auth-left">
         <div className="auth-brand animate-fade-in">
-           <div className="logo-icon pulse-ring glass-panel">
-             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-               <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="url(#paint0_linear)" strokeWidth="2"/>
-               <path d="M7 12L10 15L17 8" stroke="url(#paint0_linear)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-               <defs>
-                 <linearGradient id="paint0_linear" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
-                   <stop stopColor="#818CF8"/>
-                   <stop offset="1" stopColor="#C084FC"/>
-                 </linearGradient>
-               </defs>
-             </svg>
-           </div>
-           <h1 className="text-gradient">QuizMaster</h1>
-           <p className="auth-subtitle">Elevate your learning experience.</p>
+
+          <h1 className="text-gradient">QuizMaster</h1>
+          <p className="auth-subtitle">Elevate your learning experience.</p>
         </div>
       </div>
 
@@ -107,8 +97,7 @@ const Login = () => {
 
           <div className="auth-methods">
             {error && <div className="error-message animate-fade-in">{error}</div>}
-            
-            {isLogin && (
+
               <>
                 <div className="google-auth-container">
                   <div style={{ visibility: googleLoading ? 'hidden' : 'visible', width: '100%', display: googleLoading ? 'none' : 'block' }}>
@@ -119,78 +108,80 @@ const Login = () => {
                       theme="filled_black"
                       shape="pill"
                       size="large"
-                      context="signin"
+                      context={isLogin ? "signin" : "signup"}
                       text="continue_with_google"
                       width="100%"
                     />
                   </div>
-                  {googleLoading && <div className="loading-spinner"></div>}
+                  {googleLoading && <div style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>Please wait...</div>}
                 </div>
-                
+
                 <div className="divider">
                   <span>OR</span>
                 </div>
               </>
-            )}
 
             <form className="email-login-form animate-fade-in" onSubmit={handleSubmit}>
-               {!isLogin && (
-                  <div className="input-group">
-                     <label>Name</label>
-                     <input 
-                       name="name"
-                       type="text" 
-                       placeholder="Full Name" 
-                       required 
-                       onChange={handleChange}
-                       value={formData.name}
-                     />
-                  </div>
-               )}
-
-               <div className="input-group">
-                  <label>Email</label>
-                  <input 
-                    name="email"
-                    type="email" 
-                    placeholder="Email Address" 
-                    required 
+              {!isLogin && (
+                <div className="input-group">
+                  <label>Name</label>
+                  <input
+                    name="name"
+                    type="text"
+                    placeholder="Full Name"
+                    required
                     onChange={handleChange}
-                    value={formData.email}
+                    value={formData.name}
                   />
-               </div>
-               
-               <div className="input-group">
-                  <label>Password</label>
-                  <input 
-                    name="password"
-                    type="password" 
-                    placeholder="Password" 
-                    required 
-                    onChange={handleChange}
-                    value={formData.password}
-                  />
-               </div>
+                </div>
+              )}
 
-               {!isLogin && (
-                  <div className="input-group">
-                     <label>Role</label>
-                     <select name="role" onChange={handleChange} className="role-select" value={formData.role}>
-                       <option value="student">Student</option>
-                       <option value="instructor">Instructor</option>
-                     </select>
-                  </div>
-               )}
+              <div className="input-group">
+                <label>Email</label>
+                <input
+                  name="email"
+                  type="email"
+                  placeholder="Email Address"
+                  required
+                  onChange={handleChange}
+                  value={formData.email}
+                />
+              </div>
 
-               {isLogin && (
-                  <div className="forgot-password">
-                     <a href="#">Forgot password?</a>
-                  </div>
-               )}
+              <div className="input-group">
+                <label>Password</label>
+                <input
+                  name="password"
+                  type="password"
+                  placeholder="Password"
+                  required
+                  onChange={handleChange}
+                  value={formData.password}
+                />
+              </div>
 
-               <button type="submit" className="login-button" disabled={emailLoading || googleLoading}>
-                  {emailLoading ? 'Please wait...' : (isLogin ? 'Sign In' : 'Sign Up')}
-               </button>
+              {!isLogin && (
+                <div className="input-group">
+                  <label>Role</label>
+                  <select name="role" onChange={handleChange} className="role-select" value={formData.role}>
+                    <option value="student">Student</option>
+                    <option value="instructor">Instructor</option>
+                  </select>
+                </div>
+              )}
+
+              {isLogin && (
+                <div className="forgot-password">
+                  <a href="#" onClick={(e) => {
+                    e.preventDefault();
+                    alert("This feature is unavailable for sample emails, try google login instead.");
+                  }}>Forgot password?</a>
+                </div>
+              )}
+
+              <button type="submit" className="login-button" disabled={emailLoading || googleLoading}>
+                {emailLoading ? 'Please wait...' : (isLogin ? 'Sign In' : 'Sign Up')}
+              </button>
             </form>
           </div>
 

@@ -133,36 +133,36 @@ const ClassroomView = () => {
     return (
         <div className="create-quiz-container animate-fade-in" style={{ width: '95%', maxWidth: '1500px', margin: '2rem auto', padding: '0', overflow: 'hidden' }}>
             {/* Header Banner */}
-            <div style={{ background: 'var(--primary-gradient)', padding: '2.5rem', position: 'relative' }}>
+            <div style={{ background: 'linear-gradient(135deg, #3730A3, #7E22CE)', padding: '2.5rem', position: 'relative', borderRadius: '16px 16px 0 0' }}>
                 <button onClick={() => navigate(-1)} className="nav-btn" style={{ position: 'absolute', top: '1.2rem', left: '1.5rem', background: 'rgba(0,0,0,0.2)', border: 'none', color: 'white', padding: '0.6rem 1.2rem', display: 'flex', alignItems: 'center', gap: '0.5rem', borderRadius: '12px' }}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
                     Back
                 </button>
-                <button 
-                    onClick={() => navigate('/profile')} 
-                    className="nav-btn" 
+                <button
+                    onClick={() => navigate('/profile')}
+                    className="nav-btn"
                     style={{ position: 'absolute', top: '1.2rem', right: '1.5rem', background: 'rgba(34, 211, 238, 0.2)', border: '1px solid rgba(34, 211, 238, 0.4)', color: 'white', padding: '0.5rem 1.2rem', display: 'flex', alignItems: 'center', gap: '0.6rem', borderRadius: '50px' }}
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                     <span style={{ fontWeight: '500' }}>{user?.name}</span>
                 </button>
-                
+
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginTop: '3rem' }}>
                     <div style={{ flex: 1 }}>
                         {isEditing ? (
                             <div style={{ background: 'rgba(15, 23, 42, 0.8)', padding: '1.5rem', borderRadius: '12px', marginTop: '1rem' }}>
-                                <input 
-                                    type="text" 
-                                    value={editName} 
-                                    onChange={e => setEditName(e.target.value)} 
-                                    className="form-input" 
-                                    style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem', color: 'white', background: 'transparent', borderBottom: '2px solid var(--primary)' }} 
+                                <input
+                                    type="text"
+                                    value={editName}
+                                    onChange={e => setEditName(e.target.value)}
+                                    className="form-input"
+                                    style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem', color: 'white', background: 'transparent', borderBottom: '2px solid var(--primary)' }}
                                 />
-                                <textarea 
-                                    value={editDescription} 
-                                    onChange={e => setEditDescription(e.target.value)} 
-                                    className="form-input" 
-                                    style={{ color: 'var(--text-main)', background: 'transparent', border: '1px solid rgba(255,255,255,0.2)', resize: 'vertical' }} 
+                                <textarea
+                                    value={editDescription}
+                                    onChange={e => setEditDescription(e.target.value)}
+                                    className="form-input"
+                                    style={{ color: 'var(--text-main)', background: 'transparent', border: '1px solid rgba(255,255,255,0.2)', resize: 'vertical' }}
                                     rows="2"
                                 />
                                 <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
@@ -177,7 +177,7 @@ const ClassroomView = () => {
                             </>
                         )}
                     </div>
-                    
+
                     <div style={{ textAlign: 'right', background: 'rgba(0,0,0,0.2)', padding: '1rem 1.5rem', borderRadius: '12px', marginLeft: '2rem' }}>
                         <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase' }}>Instructor</div>
                         <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'white', marginBottom: isInstructor ? '1rem' : '0', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '0.5rem' }}>
@@ -214,7 +214,7 @@ const ClassroomView = () => {
 
             {/* Navigation Tabs */}
             <div style={{ display: 'flex', padding: '0 2.5rem', background: 'rgba(15, 23, 42, 0.4)', borderBottom: '1px solid var(--glass-border)' }}>
-                <button 
+                <button
                     onClick={() => setActiveTab('quizzes')}
                     style={{ padding: '1.2rem 2rem', background: 'none', border: 'none', borderBottom: activeTab === 'quizzes' ? '3px solid var(--primary)' : '3px solid transparent', color: activeTab === 'quizzes' ? 'var(--primary)' : 'var(--text-muted)', fontSize: '1.05rem', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.2s' }}
                 >
@@ -223,7 +223,7 @@ const ClassroomView = () => {
                         Quizzes ({quizzes.length})
                     </div>
                 </button>
-                <button 
+                <button
                     onClick={() => setActiveTab('students')}
                     style={{ padding: '1.2rem 2rem', background: 'none', border: 'none', borderBottom: activeTab === 'students' ? '3px solid var(--secondary)' : '3px solid transparent', color: activeTab === 'students' ? 'var(--secondary)' : 'var(--text-muted)', fontSize: '1.05rem', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.2s' }}
                 >
@@ -255,8 +255,8 @@ const ClassroomView = () => {
                                                 <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
                                                     {!q.isPublic && <span style={{ fontSize: '0.7rem', fontWeight: 'bold', background: 'rgba(239, 68, 68, 0.2)', color: '#ef4444', padding: '0.3rem 0.6rem', borderRadius: '12px' }}>RESTRICTED</span>}
                                                     {isInstructor && (
-                                                        <button 
-                                                            onClick={(e) => { e.stopPropagation(); handleDeleteQuiz(q._id); }} 
+                                                        <button
+                                                            onClick={(e) => { e.stopPropagation(); handleDeleteQuiz(q._id); }}
                                                             style={{ background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.2)', color: '#ef4444', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '30px', height: '30px', borderRadius: '8px', padding: 0 }}
                                                             title="Delete Quiz"
                                                         >
@@ -266,7 +266,7 @@ const ClassroomView = () => {
                                                 </div>
                                             </div>
                                             <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '1rem', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{q.description}</p>
-                                            
+
                                             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.8rem' }}>
                                                 <div style={{ background: 'rgba(255,255,255,0.03)', padding: '0.6rem', borderRadius: '10px' }}>
                                                     <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>DURATION</div>
@@ -337,15 +337,15 @@ const ClassroomView = () => {
                                                     {s.name}
                                                 </div>
                                                 {isInstructor && (
-                                                    <button 
-                                                        onClick={() => handleRemoveStudent(s._id)} 
-                                                        className="nav-btn" 
-                                                        style={{ 
-                                                            background: 'rgba(239, 68, 68, 0.1)', 
-                                                            border: '1px solid rgba(239, 68, 68, 0.2)', 
-                                                            color: '#ef4444', 
-                                                            padding: '0.4rem 0.8rem', 
-                                                            fontSize: '0.8rem', 
+                                                    <button
+                                                        onClick={() => handleRemoveStudent(s._id)}
+                                                        className="nav-btn"
+                                                        style={{
+                                                            background: 'rgba(239, 68, 68, 0.1)',
+                                                            border: '1px solid rgba(239, 68, 68, 0.2)',
+                                                            color: '#ef4444',
+                                                            padding: '0.4rem 0.8rem',
+                                                            fontSize: '0.8rem',
                                                             borderRadius: '8px',
                                                             display: 'flex',
                                                             alignItems: 'center',

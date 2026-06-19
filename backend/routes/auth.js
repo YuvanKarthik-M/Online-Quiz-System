@@ -78,7 +78,7 @@ router.post('/login', async (req, res) => {
 
 router.post('/google', async (req, res) => {
   try {
-    const { credential } = req.body;
+    const { credential, role } = req.body;
 
     // Verify Google token
     const ticket = await client.verifyIdToken({
@@ -98,7 +98,7 @@ router.post('/google', async (req, res) => {
         email,
         name,
         picture,
-        role: 'student' // Default role
+        role: role || 'student' // Default role
       });
     }
 
